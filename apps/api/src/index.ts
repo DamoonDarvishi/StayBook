@@ -1,29 +1,24 @@
 import express from "express";
 import cors from "cors";
-import dotenv from "dotenv";
-import type { ApiResponse } from "@staybook/types";
-
-dotenv.config();
+import { config } from "./config/index.js";
+import { apiRouter } from "./routes/index.js";
+import { errorMiddleware } from "./middleware/error.js";
+import { notFoundMiddleware } from "./middleware/notFound.js";
 
 const app = express();
-const PORT = process.env.PORT ?? 3001;
 
 app.use(cors());
 app.use(express.json());
 
-// Health check — Railway and other platforms ping this to know your app is alive
 app.get("/health", (_req, res) => {
   res.json({ status: "ok", timestamp: new Date().toISOString() });
 });
 
-// First typed route — notice ApiResponse<T> in action
-app.get("/api/v1/hotels", (_req, res) => {
-  const response: ApiResponse<{ message: string }> = {
-    data: { message: "Hotel search coming in Phase 2" },
-  };
-  res.json(response);
-});
+app.use("/api/v1", apiRouter);
 
-app.listen(PORT, () => {
-  console.log(`Staybook API running on port ${PORT}`);
+app.use(notFoundMiddleware);
+app.use(errorMiddleware);
+
+app.listen(config.port, () => {
+  console.log(`Staybook API running on port ${config.port}`);
 });
