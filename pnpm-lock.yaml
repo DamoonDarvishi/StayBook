@@ -21,7 +21,7 @@ importers:
   apps/api:
     dependencies:
       '@prisma/client':
-        specifier: ^6.19.2
+        specifier: '6'
         version: 6.19.2(prisma@6.19.2(typescript@5.9.3))(typescript@5.9.3)
       '@staybook/types':
         specifier: workspace:*
@@ -46,7 +46,7 @@ importers:
         specifier: ^20.0.0
         version: 20.19.37
       prisma:
-        specifier: ^6.19.2
+        specifier: '6'
         version: 6.19.2(typescript@5.9.3)
       tsx:
         specifier: ^4.7.0
